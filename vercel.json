@@ -1,0 +1,23 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "regions": ["fra1"],
+  "env": {
+    "NEXT_PUBLIC_FIREBASE_API_KEY": "@firebase_api_key",
+    "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN": "@firebase_auth_domain",
+    "NEXT_PUBLIC_FIREBASE_PROJECT_ID": "@firebase_project_id",
+    "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET": "@firebase_storage_bucket",
+    "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID": "@firebase_messaging_sender_id",
+    "NEXT_PUBLIC_FIREBASE_APP_ID": "@firebase_app_id",
+    "NEXT_PUBLIC_ALLOWED_DOMAIN": "@allowed_domain",
+    "FIREBASE_ADMIN_PROJECT_ID": "@firebase_admin_project_id",
+    "FIREBASE_ADMIN_CLIENT_EMAIL": "@firebase_admin_client_email",
+    "FIREBASE_ADMIN_PRIVATE_KEY": "@firebase_admin_private_key",
+    "GOOGLE_SERVICE_ACCOUNT_EMAIL": "@google_service_account_email",
+    "GOOGLE_PRIVATE_KEY": "@google_private_key",
+    "CENTRAL_SHEET_ID": "@central_sheet_id",
+    "ANTHROPIC_API_KEY": "@anthropic_api_key"
+  }
+}

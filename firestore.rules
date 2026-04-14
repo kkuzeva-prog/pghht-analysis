@@ -1,0 +1,59 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function hasRole(role) {
+      return isAuthenticated() && getUserData().role == role;
+    }
+
+    function hasAnyRole(roles) {
+      return isAuthenticated() && getUserData().role in roles;
+    }
+
+    function isAdmin() {
+      return hasRole('admin');
+    }
+
+    function isDirectorOrAbove() {
+      return hasAnyRole(['admin', 'director', 'assistant_director']);
+    }
+
+    // Users collection
+    match /users/{userId} {
+      // Users can read their own document
+      allow read: if isAuthenticated() && request.auth.uid == userId;
+      // Admin can read all users
+      allow read: if isAdmin();
+      // Users can create their own document (on first login)
+      allow create: if isAuthenticated() && request.auth.uid == userId;
+      // Only admin can update roles; users can update their own non-role fields
+      allow update: if isAdmin() ||
+        (isAuthenticated() && request.auth.uid == userId &&
+         !request.resource.data.diff(resource.data).affectedKeys().hasAny(['role']));
+    }
+
+    // Analyses collection
+    match /analyses/{analysisId} {
+      // Teachers can only read their own analyses
+      allow read: if isAuthenticated() && (
+        isDirectorOrAbove() ||
+        resource.data.teacherEmail == request.auth.token.email
+      );
+      // Teachers and above can create analyses
+      allow create: if isAuthenticated() &&
+        hasAnyRole(['admin', 'director', 'assistant_director', 'teacher']) &&
+        request.resource.data.createdBy == request.auth.uid;
+      // Only admin and directors can update/delete
+      allow update, delete: if isDirectorOrAbove();
+    }
+  }
+}
