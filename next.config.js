@@ -1,11 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export', // Добави този ред
   images: {
-    domains: ['lh3.googleusercontent.com', 'drive.google.com'],
+    unoptimized: true, // Важно за статичен експорт в Netlify
   },
-  experimental: {
-    serverComponentsExternalPackages: ['firebase-admin'],
-  },
-}
+};
 
-module.exports = nextConfig
+export default nextConfig;
