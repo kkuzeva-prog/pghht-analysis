@@ -405,4 +405,39 @@ export default function Home() {
             {/* ИНДИВИДУАЛЕН СТУДЕНТСКИ ИНСТРУМЕНТ */}
             <div style={{ backgroundColor: '#ffffff', border: '1px solid #bdc8bd', padding: '20px', borderRadius: '4px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #1b5e20', paddingBottom: '10px', marginBottom: '16px' }}>
-                <h3 style={{ fontSize: '13px', fontWeight: 'bold',
+                <h3 style={{ fontSize: '13px', fontWeight: 'bold', color: '#1b5e20', margin: 0 }}>📊 Индивидуален радар за дефицити</h3>
+                <select
+                  style={{ border: '1px solid #bdc8bd', borderRadius: '4px', padding: '6px 12px', fontSize: '11px' }}
+                  value={selectedStudent}
+                  onChange={(e) => setSelectedStudent(e.target.value)}
+                >
+                  {analysisReport.studentsData.map((s: any) => <option key={s.name} value={s.name}>{s.name} ({s.score})</option>)}
+                </select>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: '20px', alignItems: 'center' }}>
+                <div style={{ height: '160px', position: 'relative' }}>
+                  <canvas id="studentChart"></canvas>
+                </div>
+                <div style={{ fontSize: '11px', backgroundColor: '#f4f7f4', padding: '12px', border: '1px solid #e1e8e1', borderRadius: '4px' }}>
+                  <h5 style={{ fontWeight: 'bold', margin: '0 0 4px 0', color: '#1b5e20' }}>Педагогическа препоръка за надграждане:</h5>
+                  <p style={{ margin: 0 }}>Графиката показва индивидуалното развитие на <strong>{selectedStudent}</strong>. Желателно е да се наблегне върху практическите казуси за отстраняване на текущите дефицити.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        ) : (
+          /* НАЧАЛЕН ЕКРАН С ОРИГИНАЛНОТО ЛОГО НА УЧИЛИЩЕТО */
+          <div style={{ backgroundColor: '#ffffff', border: '1px solid #e1e8e1', padding: '48px', textAlign: 'center', maxWidth: '520px', marginTop: '40px', borderRadius: '4px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
+            <img src={realSchoolLogoBase64} alt="Оригинално Лого ПГХХТ" style={{ width: '90px', height: 'auto', marginBottom: '10px' }} />
+            <div>
+              <h3 style={{ fontSize: '16px', fontWeight: 'bold', color: '#1b5e20', margin: '0 0 8px 0' }}>Официална система за анализи - ПГХХТ</h3>
+              <p style={{ color: '#6b7280', fontSize: '12px', lineHeight: '1.6', margin: 0 }}>Моля, изберете съответната паралелка и изпитване от левия контролен панел и натиснете бутона, за да заредите чистата експертна структура.</p>
+            </div>
+          </div>
+        )}
+      </main>
+
+    </div>
+  );
+}
