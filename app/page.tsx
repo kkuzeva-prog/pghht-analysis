@@ -16,8 +16,6 @@ export default function Home() {
 
   const [curriculumFile, setCurriculumFile] = useState<any>(null);
   const [testFile, setTestFile] = useState<any>(null);
-  const [additionalFile, setAdditionalFile] = useState<any>(null);
-
   const [analysisReport, setAnalysisReport] = useState<any>(null);
   const [selectedStudent, setSelectedStudent] = useState('');
   
@@ -124,7 +122,7 @@ export default function Home() {
         subject: "Математика",
         classGrade: "8 Б клас",
         examName: "Диагностично входно ниво по Математика",
-        date: new Date().toLocaleDateString('bg-BG'),
+        date: "27.05.2026 г.",
         stats: {
           totalStudents: 22,
           appearedStudents: 20,
@@ -149,7 +147,7 @@ export default function Home() {
       setAnalysisReport(mockReport);
       setSelectedStudent(mockReport.studentsData[0].name);
       setIsLoading(false);
-    }, 1200);
+    }, 1000);
   };
 
   useEffect(() => {
@@ -164,11 +162,15 @@ export default function Home() {
           datasets: [{
             label: 'Брой ученици',
             data: Object.values(analysisReport.stats.gradesDistribution),
-            backgroundColor: '#2e7d32',
+            backgroundColor: '#1b5e20',
             borderWidth: 0
           }]
         },
-        options: { responsive: true, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
+        options: { 
+          responsive: true, 
+          maintainAspectRatio: true,
+          scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } 
+        }
       });
     }
     updateStudentChart();
@@ -189,11 +191,16 @@ export default function Home() {
           datasets: [{
             label: 'Успеваемост (%)',
             data: Object.values(student.topics),
-            backgroundColor: 'rgba(76, 175, 80, 0.2)',
-            borderColor: '#4caf50',
+            backgroundColor: 'rgba(27, 94, 32, 0.15)',
+            borderColor: '#1b5e20',
+            borderWidth: 2
           }]
         },
-        options: { responsive: true, scales: { r: { max: 100, min: 0 } } }
+        options: { 
+          responsive: true,
+          maintainAspectRatio: true,
+          scales: { r: { max: 100, min: 0 } } 
+        }
       });
     }
   };
@@ -202,8 +209,8 @@ export default function Home() {
     const element = reportRef.current;
     if (!element || !(window as any).html2pdf) return;
     const opt = {
-      margin: 15,
-      filename: `Анализ_${analysisReport.classGrade}_${analysisReport.examName}.pdf`,
+      margin: 12,
+      filename: `Анализ_${analysisReport.classGrade}.pdf`,
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2, useCORS: true },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
@@ -212,49 +219,48 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col md:flex-row font-sans text-gray-800">
+    <div style={{ display: 'flex', flexDirection: 'row', minHeight: '100vh', backgroundColor: '#f3f4f6', fontFamily: 'Arial, sans-serif', color: '#1f2937', margin: 0 }}>
       
-      {/* ЛЯВ СТАБИЛЕН СТРУКТУРИРАН ПАНЕЛ */}
-      <aside className="w-full md:w-80 bg-white border-r border-gray-200 p-6 flex flex-col justify-between shadow-sm shrink-0">
-        <div className="space-y-6">
-          <div className="border-b border-gray-100 pb-4 text-center md:text-left">
-            <h1 className="text-xl font-bold text-green-950 tracking-tight">ПГХХТ Анализатор</h1>
-            <p className="text-xs text-gray-500 mt-1">Експертна педагогическа статистика</p>
+      {/* СТАБИЛЕН СТРУКТУРИРАН ЛЯВ ПАНЕЛ */}
+      <aside style={{ width: '300px', backgroundColor: '#ffffff', borderRight: '1px solid #e5e7eb', padding: '24px', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'between', flexShrink: 0 }}>
+        <div>
+          <div style={{ borderBottom: '2px solid #f3f4f6', paddingBottom: '16px', marginBottom: '20px' }}>
+            <h1 style={{ fontSize: '18px', fontWeight: 'bold', color: '#052e16', margin: 0 }}>ПГХХТ Анализатор</h1>
+            <p style={{ fontSize: '11px', color: '#6b7280', marginTop: '4px', margin: 0 }}>Експертна педагогическа статистика</p>
           </div>
 
           {!user ? (
             <button 
               onClick={handleGoogleLogin}
-              disabled={isLoading}
-              className="w-full bg-[#1b5e20] hover:bg-[#2e7d32] text-white font-semibold py-3 px-4 rounded-lg transition text-xs shadow-sm flex items-center justify-center gap-2"
+              style={{ width: '100%', backgroundColor: '#1b5e20', color: '#ffffff', border: 'none', borderRadius: '6px', padding: '12px', fontSize: '12px', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}
             >
               Влез със служебен Google акаунт
             </button>
           ) : (
-            <div className="bg-green-50 rounded-lg p-3 border border-green-100 text-xs">
-              <p className="font-bold text-green-900">👤 {user.name}</p>
-              <p className="text-gray-600 mt-0.5">{user.email}</p>
+            <div style={{ backgroundColor: '#f0fdf4', border: '1px solid #dcfce7', borderRadius: '6px', padding: '12px', fontSize: '12px', marginBottom: '20px' }}>
+              <p style={{ fontWeight: 'bold', color: '#166534', margin: 0 }}>👤 {user.name}</p>
+              <p style={{ color: '#4b5563', margin: '2px 0 0 0', fontSize: '11px' }}>{user.email}</p>
             </div>
           )}
 
           {user && (
-            <div className="space-y-4">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <div>
-                <label className="block text-[10px] font-bold uppercase text-gray-400 tracking-wider mb-1">Клас от Classroom</label>
+                <label style={{ display: 'block', fontSize: '10px', fontWeight: 'bold', uppercase: 'true', color: '#9ca3af', marginBottom: '4px' }}>КЛАС ОТ CLASSROOM</label>
                 <select 
-                  className="w-full border border-gray-300 rounded-md p-2 bg-gray-50 focus:ring-2 focus:ring-green-700 text-xs text-gray-700"
+                  style={{ width: '100%', border: '1px solid #d1d5db', borderRadius: '4px', padding: '8px', backgroundColor: '#f9fafb', fontSize: '12px' }}
                   value={selectedCourse}
                   onChange={(e) => handleCourseChange(e.target.value)}
                 >
                   <option value="">-- Изберете паралелка --</option>
-                  <option value="test">8 Б клас - Специалност Екология</option>
+                  <option value="test">8 Б клас</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-[10px] font-bold uppercase text-gray-400 tracking-wider mb-1">Тест / Задача</label>
+                <label style={{ display: 'block', fontSize: '10px', fontWeight: 'bold', uppercase: 'true', color: '#9ca3af', marginBottom: '4px' }}>ТЕСТ / ЗАДАЧА</label>
                 <select 
-                  className="w-full border border-gray-300 rounded-md p-2 bg-gray-50 focus:ring-2 focus:ring-green-700 text-xs text-gray-700"
+                  style={{ width: '100%', border: '1px solid #d1d5db', borderRadius: '4px', padding: '8px', backgroundColor: '#f9fafb', fontSize: '12px' }}
                   value={selectedWork}
                   onChange={(e) => setSelectedWork(e.target.value)}
                 >
@@ -263,21 +269,17 @@ export default function Home() {
                 </select>
               </div>
 
-              <div className="pt-2 border-t border-gray-100 space-y-3">
-                <p className="text-[10px] font-bold uppercase text-gray-400 tracking-wider">Допълнителни документи</p>
-                <div>
-                  <label className="block text-[10px] text-gray-500 mb-1">Учебна програма (PDF)</label>
-                  <input type="file" accept=".pdf" className="text-[10px] w-full text-gray-400 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-gray-100 file:text-gray-700" onChange={(e: any) => setCurriculumFile(e.target.files[0])} />
-                </div>
-                <div>
-                  <label className="block text-[10px] text-gray-500 mb-1">Вариант на теста (PDF)</label>
-                  <input type="file" accept=".pdf" className="text-[10px] w-full text-gray-400 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-gray-100 file:text-gray-700" onChange={(e: any) => setTestFile(e.target.files[0])} />
+              <div style={{ borderTop: '1px solid #f3f4f6', paddingTop: '12px' }}>
+                <p style={{ fontSize: '10px', fontWeight: 'bold', color: '#9ca3af', margin: '0 0 8px 0' }}>ДОПЪЛНИТЕЛНИ ДОКУМЕНТИ</p>
+                <div style={{ marginBottom: '8px' }}>
+                  <label style={{ display: 'block', fontSize: '10px', color: '#6b7280', marginBottom: '2px' }}>Учебна програма (PDF)</label>
+                  <input type="file" accept=".pdf" style={{ fontSize: '10px', width: '100%' }} onChange={(e: any) => setCurriculumFile(e.target.files[0])} />
                 </div>
               </div>
 
               <button
                 onClick={handleGenerateReport}
-                className="w-full bg-[#2e7d32] hover:bg-[#1b5e20] text-white font-bold py-2.5 px-4 rounded-lg transition tracking-wide text-xs mt-2 shadow"
+                style={{ width: '100%', backgroundColor: '#2e7d32', color: '#ffffff', border: 'none', borderRadius: '6px', padding: '10px', fontSize: '12px', fontWeight: 'bold', cursor: 'pointer', marginTop: '10px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}
               >
                 Генерирай структура
               </button>
@@ -285,46 +287,44 @@ export default function Home() {
           )}
         </div>
         
-        <div className="text-[10px] text-gray-400 text-center pt-4 border-t border-gray-100">
+        <div style={{ fontSize: '10px', color: '#9ca3af', textAlign: 'center', marginTop: 'auto', paddingTop: '20px', borderTop: '1px solid #f3f4f6' }}>
           ПГХХТ © 2026 Всички права запазени.
         </div>
       </aside>
 
-      {/* ДЕСЕН РАБОТЕН ПАНЕЛ С ЧИСТ А4 КЛАСИЧЕСКИ ЛИСТ */}
-      <main className="flex-1 p-4 md:p-8 overflow-y-auto flex flex-col items-center">
+      {/* ДЕСЕН РАБОТЕН ПАНЕЛ С КЛАСИЧЕСКИ ЛИСТ А4 */}
+      <main style={{ flex: 1, padding: '32px', overflowY: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         {analysisReport ? (
-          <div className="w-full max-w-[800px] space-y-6">
+          <div style={{ width: '100%', maxWidth: '800px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
             
-            <div className="flex justify-end">
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
               <button 
                 onClick={downloadPDF}
-                className="bg-[#1b5e20] hover:bg-[#2e7d32] text-white font-semibold py-2 px-4 rounded shadow transition text-xs flex items-center gap-2"
+                style={{ backgroundColor: '#1b5e20', color: '#ffffff', border: 'none', borderRadius: '4px', padding: '10px 16px', fontSize: '12px', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', display: 'flex', alignItems: 'center', gap: '6px' }}
               >
-                Изтегли Сертифициран PDF Анализ
+                🖨️ Изтегли Официален PDF Анализ
               </button>
             </div>
 
-            {/* СТРУКТУРИРАНИЯТ ОФИЦИАЛЕН ЛИСТ А4 ЗА ОЦЕНЯВАНЕ */}
+            {/* ИСТИНСКИ БЯЛ ЛИСТ А4 С ФИКСИРАНИ ОФИС ГРАНИЦИ */}
             <div 
               ref={reportRef} 
-              className="bg-white rounded-none shadow-md border border-gray-300 p-10 text-xs text-gray-900 leading-relaxed space-y-6 bg-cover relative"
-              style={{ minHeight: '297mm', fontFamily: 'Arial, sans-serif' }}
+              style={{ backgroundColor: '#ffffff', border: '1px solid #d1d5db', padding: '50px', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: '24px', fontSize: '12px', color: '#000000', lineHeight: '1.5', position: 'relative', minHeight: '297mm' }}
             >
               
-              {/* ХЕДЪР С ЛОГО И ЗАГЛАВИЕ */}
-              <div className="flex items-center justify-between border-b-2 border-green-900 pb-4">
-                {/* Място за училищното лого горе вляво */}
-                <div className="w-20 h-20 border border-dashed border-gray-300 rounded flex items-center justify-center text-[10px] text-gray-400 text-center p-1 shrink-0">
-                  [ ЛОГО НА УЧИЛИЩЕТО ]
+              {/* ХЕДЪР: ЛОГО + ЗАГЛАВИЕ */}
+              <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderBottom: '2px solid #1b5e20', paddingBottom: '12px' }}>
+                <div style={{ width: '80px', height: '80px', border: '1px dashed #cccccc', borderRadius: '4px', display: 'flex', alignItems: 'center', justifycontent: 'center', fontSize: '9px', color: '#9ca3af', textAlign: 'center', padding: '4px', boxSizing: 'border-box' }}>
+                  [ МЯСТО ЗА ЛОГО ]
                 </div>
-                <div className="text-right max-w-[550px]">
-                  <h2 className="text-sm font-bold uppercase tracking-tight text-green-950">{analysisReport.school}</h2>
-                  <p className="text-[10px] text-gray-500 uppercase mt-0.5 tracking-wide">Система за проследяване на образователните резултати</p>
+                <div style={{ textAlign: 'right', maxWidth: '550px' }}>
+                  <h2 style={{ fontSize: '13px', fontWeight: 'bold', color: '#052e16', uppercase: 'true', margin: 0 }}>{analysisReport.school}</h2>
+                  <p style={{ fontSize: '10px', color: '#6b7280', uppercase: 'true', margin: '4px 0 0 0', trackingWide: '1px' }}>Система за проследяване на образователните резултати</p>
                 </div>
               </div>
 
-              {/* МЕТА ДАННИ */}
-              <div className="grid grid-cols-2 gap-x-6 gap-y-2 bg-gray-50 p-4 rounded border border-gray-200">
+              {/* МЕТА КАРТА С ДАННИ */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px 24px', backgroundColor: '#f9fafb', padding: '12px', borderRadius: '4px', border: '1px solid #e5e7eb' }}>
                 <div><strong>Паралелка / Група:</strong> {analysisReport.classGrade}</div>
                 <div><strong>Учебен предмет:</strong> {analysisReport.subject}</div>
                 <div><strong>Вид на проверката:</strong> {analysisReport.examName}</div>
@@ -332,116 +332,110 @@ export default function Home() {
               </div>
 
               {/* ТОЧКА 1 */}
-              <section className="space-y-1">
-                <h3 className="font-bold text-sm text-green-950 border-b border-gray-200 pb-0.5 uppercase tracking-wide">Точка 1: Основни характеристики на изпитването (Ниво Клас)</h3>
-                <p>Общият състав на паралелката възлиза на <strong>{analysisReport.stats.totalStudents}</strong> ученици. В диагностичната процедура взеха участие <strong>{analysisReport.stats.appearedStudents}</strong> от тях. Средният брутен успех на ниво паралелка е фиксиран на <strong>{analysisReport.stats.averageScore}</strong>, съответстващ на общ коефициент на качествена успеваемост от <strong>{analysisReport.stats.successRate}</strong>. Базовите репродуктивни компоненти показват задоволително усвояване, докато отворените логически секции бележат умерена флуктуация.</p>
+              <section>
+                <h3 style={{ fontSize: '12px', fontWeight: 'bold', color: '#052e16', borderBottom: '1px solid #e5e7eb', paddingBottom: '2px', marginBottom: '6px', uppercase: 'true' }}>Точка 1: Основни характеристики на изпитването (Ниво Клас)</h3>
+                <p style={{ margin: 0, textAlign: 'justify' }}>Общият състав на паралелката възлиза на <strong>{analysisReport.stats.totalStudents}</strong> ученици. В диагностичната процедура взеха участие <strong>{analysisReport.stats.appearedStudents}</strong> от тях. Средният брутен успех на ниво паралелка е фиксиран на <strong>{analysisReport.stats.averageScore}</strong>, съответстващ на общ коефициент на качествена успеваемост от <strong>{analysisReport.stats.successRate}</strong>. Базовите репродуктивни компоненти показват задоволително усвояване, докато отворените логически секции бележат умерена флуктуация.</p>
               </section>
 
               {/* ТОЧКА 2 */}
-              <section className="space-y-1">
-                <h3 className="font-bold text-sm text-green-950 border-b border-gray-200 pb-0.5 uppercase tracking-wide">Точка 2: Функции на проведеното оценяване</h3>
-                <p>Процедурата реализира три основни педагогически стълба: <strong>Диагностична функция</strong> (диференциране на натрупани системни пропуски), <strong>Информативна функция</strong> (генериране на обективна обратна връзка за образователната общност и семейния съвет) и <strong>Прогностична функция</strong> (коригиране на годишното тематично разпределение за последващ преговор).</p>
+              <section>
+                <h3 style={{ fontSize: '12px', fontWeight: 'bold', color: '#052e16', borderBottom: '1px solid #e5e7eb', paddingBottom: '2px', marginBottom: '6px', uppercase: 'true' }}>Точка 2: Функции на проведеното оценяване</h3>
+                <p style={{ margin: 0, textAlign: 'justify' }}>Процедурата реализира три основни педагогически стълба: <strong>Диагностична функция</strong> (диференциране на натрупани системни пропуски), <strong>Информативна функция</strong> (генериране на обективна обратна връзка за образователната общност и семейния съвет) и <strong>Прогностична функция</strong> (коригиране на годишното тематично разпределение за последващ преговор).</p>
               </section>
 
-              {/* ТАБЛИЦА: НИВО ВЪПРОС / УМЕНИЕ */}
-              <section className="space-y-2">
-                <h3 className="font-bold text-sm text-green-950 border-b border-gray-200 pb-0.5 uppercase tracking-wide">Точка 3: Аналитично измерване на дефицитите на ниво въпрос</h3>
-                <p className="mb-2">Всеки зададен въпрос от изпитването измерва конкретно обособена група знания и математически компетенции. По-долу е представена матрицата на дефицитите по компоненти:</p>
-                <table className="w-full border-collapse border border-gray-400 text-left text-[11px]">
+              {/* ТОЧКА 3: ТАБЛИЦА С ВЪПРОСИ (УМЕНИЯ) */}
+              <section>
+                <h3 style={{ fontSize: '12px', fontWeight: 'bold', color: '#052e16', borderBottom: '1px solid #e5e7eb', paddingBottom: '2px', marginBottom: '6px', uppercase: 'true' }}>Точка 3: Аналитично измерване на дефицитите на ниво въпрос</h3>
+                <p style={{ margin: '0 0 10px 0' }}>Всеки зададен въпрос от изпитването мери конкретна група знания, умения или установени системни пропуски:</p>
+                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '11px' }}>
                   <thead>
-                    <tr className="bg-gray-100 border-b border-gray-400">
-                      <th className="border border-gray-400 p-2 font-bold">Код</th>
-                      <th className="border border-gray-400 p-2 font-bold">Измервано знание / Специфично умение</th>
-                      <th className="border border-gray-400 p-2 font-bold text-center">Макс. точки</th>
-                      <th className="border border-gray-400 p-2 font-bold text-center">Коефициент на успеваемост</th>
+                    <tr style={{ backgroundColor: '#f3f4f6' }}>
+                      <th style={{ border: '1px solid #9ca3af', padding: '6px', fontWeight: 'bold', textAlign: 'center', width: '50px' }}>Код</th>
+                      <th style={{ border: '1px solid #9ca3af', padding: '6px', fontWeight: 'bold', textAlign: 'left' }}>Измервано знание / Специфично умение</th>
+                      <th style={{ border: '1px solid #9ca3af', padding: '6px', fontWeight: 'bold', textAlign: 'center', width: '80px' }}>Макс. точки</th>
+                      <th style={{ border: '1px solid #9ca3af', padding: '6px', fontWeight: 'bold', textAlign: 'center', width: '120px' }}>Успеваемост (%)</th>
                     </tr>
                   </thead>
                   <tbody>
                     {analysisReport.questionsData.map((q: any) => (
-                      <tr key={q.num} className="border-b border-gray-300 hover:bg-gray-50">
-                        <td className="border border-gray-300 p-2 font-semibold text-center">{q.num}</td>
-                        <td className="border border-gray-300 p-2">{q.skill}</td>
-                        <td className="border border-gray-300 p-2 text-center">{q.maxPoints}</td>
-                        <td className="border border-gray-300 p-2 text-center font-medium text-green-800">{q.avgSuccess}</td>
+                      <tr key={q.num}>
+                        <td style={{ border: '1px solid #d1d5db', padding: '6px', textAlign: 'center', fontWeight: 'bold' }}>{q.num}</td>
+                        <td style={{ border: '1px solid #d1d5db', padding: '6px' }}>{q.skill}</td>
+                        <td style={{ border: '1px solid #d1d5db', padding: '6px', textAlign: 'center' }}>{q.maxPoints}</td>
+                        <td style={{ border: '1px solid #d1d5db', padding: '6px', textAlign: 'center', color: '#166534', fontWeight: 'bold' }}>{q.avgSuccess}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </section>
 
-              {/* ГРАФИКА: РАЗПРЕДЕЛЕНИЕ */}
-              <section className="space-y-2 bg-gray-50 p-4 rounded border border-gray-200 page-break-inside-avoid">
-                <h4 className="font-semibold text-center text-gray-700 uppercase tracking-wider text-[10px]">Количествено разпределение на оценките в паралелката</h4>
-                <div className="max-w-[380px] mx-auto">
-                  <canvas id="classChart" width="400" height="180"></canvas>
+              {/* МАЛКА СМАЛЕНА ГРАФИКА РАЗПРЕДЕЛЕНИЕ */}
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: '#f9fafb', padding: '12px', borderRadius: '4px', border: '1px solid #e5e7eb', maxWidth: '320px', margin: '0 auto' }}>
+                <span style={{ fontSize: '10px', fontWeight: 'bold', color: '#4b5563', marginBottom: '6px', textTransform: 'uppercase' }}>Разпределение на оценките</span>
+                <div style={{ width: '280px', height: '130px' }}>
+                  <canvas id="classChart"></canvas>
                 </div>
+              </div>
+
+              {/* ТОЧКА 4 */}
+              <section>
+                <h3 style={{ fontSize: '12px', fontWeight: 'bold', color: '#052e16', borderBottom: '1px solid #e5e7eb', paddingBottom: '2px', marginBottom: '6px', uppercase: 'true' }}>Точка 4: Индивидуален профил на успеваемост (Ниво Ученик)</h3>
+                <p style={{ margin: 0, textAlign: 'justify' }}>Наблюдението на индивидуално равнище потвърждава балансирано усвояване на системните алгебрични преобразувания. Специфични дефицити и пропуски се регистрират в пространственото мислене и геометрията при част от състава на класа.</p>
               </section>
 
-              {/* ТОЧКА 4 & 5 */}
-              <section className="space-y-1">
-                <h3 className="font-bold text-sm text-green-950 border-b border-gray-200 pb-0.5 uppercase tracking-wide">Точка 4: Индивидуален профил на успеваемост (Ниво Ученик)</h3>
-                <p>Статистическото наблюдение на индивидуално равнище потвърждава, че голяма част от учениците се справят отлично с алгоритмичните алгебрични преобразувания. Изразени локални дефицити се наблюдават в пространственото мислене и геометрията, където се регистрира спад в успеваемостта при 42% от състава.</p>
-              </section>
-
-              {/* ТОЧКА 6: МЕРКИ */}
-              <section className="space-y-2">
-                <h3 className="font-bold text-sm text-green-950 border-b border-gray-200 pb-0.5 uppercase tracking-wide">Точка 5: Програма от конкретни мерки за подобряване на резултатите</h3>
-                <ol className="list-decimal list-inside space-y-1 text-gray-700 pl-1">
+              {/* ТОЧКА 5: МЕРКИ */}
+              <section>
+                <h3 style={{ fontSize: '12px', fontWeight: 'bold', color: '#052e16', borderBottom: '1px solid #e5e7eb', paddingBottom: '2px', marginBottom: '6px', uppercase: 'true' }}>Точка 5: Програма от мерки за подобряване на резултатите</h3>
+                <ul style={{ margin: 0, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
                   <li><strong>Диференциран подход:</strong> Обособяване на микрогрупи за подкрепа по време на редовните часове.</li>
-                  <li><strong>Дигитално подсилване:</strong> Провеждане на ежеседмични петминутни опреснителни тестове в Google Classroom.</li>
-                  <li><strong>Консултиране:</strong> Таргетирани индивидуални консултации в часовете за методическа помощ.</li>
-                  <li><strong>Практическа ориентация:</strong> Внедряване на казуси от реалния живот за елиминиране на текстовите дефицити.</li>
-                  <li><strong>Планиране на прогреса:</strong> Поставяне на стратегическа цел за повишаване на брутния среден резултат с 10% до следващия отчетен период.</li>
-                </ol>
+                  <li><strong>Дигитално подсилване:</strong> Ежеседмични кратки тестове в Google Classroom за затвърждаване.</li>
+                  <li><strong>Методическа помощ:</strong> Таргетирани индивидуални консултации в часовете за подкрепа.</li>
+                </ul>
               </section>
 
-              {/* ФУТЪР: ИЗГОТВИЛ И ПОДПИС */}
-              <div className="pt-8 flex justify-between items-end text-[11px] border-t border-gray-200 mt-8">
-                <div>
-                  <p><strong>Прикачени файлове:</strong></p>
-                  <p className="text-gray-500 mt-0.5">
-                    {curriculumFile ? `✅ Програма: ${curriculumFile.name}` : '❌ Липсва учебна програма'} <br />
-                    {testFile ? `✅ Тест: ${testFile.name}` : '❌ Липсва вариант на изпитването'}
-                  </p>
+              {/* ФУТЪР: ИЗГОТВИЛ ИЗЦЕЛО ДОЛУ ВДЯСНО */}
+              <div style={{ marginTop: 'auto', paddingTop: '40px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                <div style={{ fontSize: '10px', color: '#6b7280' }}>
+                  {curriculumFile && <span>📎 Прикачена програма: {curriculumFile.name}</span>}
                 </div>
-                <div className="text-right">
-                  <p className="font-semibold">Изготвил: _______________________</p>
-                  <p className="text-gray-600 mt-1">/ {analysisReport.teacher}, {analysisReport.role} /</p>
-                  <p className="text-green-950 text-[10px] uppercase tracking-wider font-bold mt-0.5">ПГХХТ Пазарджик</p>
+                <div style={{ textAlign: 'right', minWidth: '220px' }}>
+                  <p style={{ margin: 0, fontSize: '12px', fontWeight: 'bold' }}>Изготвил: _______________________</p>
+                  <p style={{ margin: '4px 0 0 0', color: '#4b5563', fontSize: '11px' }}>/ {analysisReport.teacher}, {analysisReport.role} /</p>
+                  <p style={{ margin: '2px 0 0 0', color: '#052e16', fontSize: '10px', fontWeight: 'bold', uppercase: 'true' }}>ПГХХТ Пазарджик</p>
                 </div>
               </div>
 
             </div>
 
-            {/* ИНДИВИДУАЛНА ДИАГНОСТИКА (ВЪН ОД ДОКУМЕНТА ЗА ПЕЧАТ) */}
-            <div className="bg-white border border-gray-200 p-6 shadow-sm rounded-none">
-              <div className="flex flex-col sm:flex-row items-center justify-between border-b border-gray-100 pb-3 gap-2">
-                <h3 className="font-bold text-sm text-[#1b5e20]">📊 Интерактивен индивидуален радар за дефицити</h3>
+            {/* ИНДИВИДУАЛЕН КЛАСЕН ИНСТРУМЕНТ (ВЪН ОТ ПЕЧАТНИЯ ЛИСТ) */}
+            <div style={{ backgroundColor: '#ffffff', border: '1px solid #e5e7eb', padding: '20px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #f3f4f6', paddingBottom: '10px', marginBottom: '16px' }}>
+                <h3 style={{ fontSize: '13px', fontWeight: 'bold', color: '#1b5e20', margin: 0 }}>📊 Интерактивен индивидуален радар за дефицити</h3>
                 <select
-                  className="border border-gray-300 rounded p-1.5 bg-gray-50 text-xs font-semibold"
+                  style={{ border: '1px solid #d1d5db', borderRadius: '4px', padding: '4px 8px', fontSize: '11px' }}
                   value={selectedStudent}
                   onChange={(e) => setSelectedStudent(e.target.value)}
                 >
                   {analysisReport.studentsData.map((s: any) => <option key={s.name} value={s.name}>{s.name} ({s.score})</option>)}
                 </select>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center pt-4">
-                <div className="max-w-[240px] mx-auto w-full">
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', alignItems: 'center' }}>
+                <div style={{ maxWidth: '200px', margin: '0 auto' }}>
                   <canvas id="studentChart"></canvas>
                 </div>
-                <div className="text-xs bg-gray-50 p-4 border border-gray-200 space-y-2">
-                  <h5 className="font-bold text-gray-700">Педагогическо предписание:</h5>
-                  <p>Въз основа на индивидуалната паяжинообразна диаграма за ученик <strong>{selectedStudent}</strong> се препоръчва спешно пренасочване към допълнителни практически модули в секция "Геометрия", с оглед преодоляване на установените локални дефицити преди следващия етап на проверка.</p>
+                <div style={{ fontSize: '11px', backgroundColor: '#f9fafb', padding: '12px', border: '1px solid #e5e7eb' }}>
+                  <h5 style={{ fontWeight: 'bold', margin: '0 0 4px 0' }}>Педагогическо предписание:</h5>
+                  <p style={{ margin: 0 }}>Въз основа на паяжинообразната диаграма за <strong>{selectedStudent}</strong> се препоръчва насочване към практически казуси за преодоляване на локалните дефицити.</p>
                 </div>
               </div>
             </div>
 
           </div>
         ) : (
-          <div className="bg-white border border-gray-200 p-12 text-center max-w-lg mt-12 shadow-sm">
-            <span className="text-4xl block mb-3">🍏</span>
-            <h3 className="text-base font-bold text-gray-700 mb-1">Официална система за анализи - ПГХХТ</h3>
-            <p className="text-gray-400 text-xs leading-relaxed">Моля, изберете съответната паралелка и изпитване от левия панел за управление и натиснете бутона, за да заредите чистата експертна структура.</p>
+          <div style={{ backgroundColor: '#ffffff', border: '1px solid #e5e7eb', padding: '48px', textAlign: 'center', maxWidth: '500px', marginTop: '40px', boxSizing: 'border-box' }}>
+            <span style={{ fontSize: '36px', display: 'block', marginBottom: '12px' }}>🍏</span>
+            <h3 style={{ fontSize: '16px', fontWeight: 'bold', color: '#374151', margin: '0 0 4px 0' }}>Официална система за анализи - ПГХХТ</h3>
+            <p style={{ color: '#9ca3af', fontSize: '12px', lineHeight: '1.5', margin: 0 }}>Моля, изберете паралелка и изпитване от левия контролен панел и натиснете бутона, за да заредите чистата експертна структура.</p>
           </div>
         )}
       </main>
