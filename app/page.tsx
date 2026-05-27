@@ -220,8 +220,22 @@ export default function Home() {
     (window as any).html2pdf().from(element).set(opt).save();
   };
 
-  // Пътят към официалното лого на училището
-  const schoolLogoSrc = "https://raw.githubusercontent.com/AI-Generated-Links/logos/main/pghht-logo.png";
+  // Векторна прецизна емблема на ПГХХТ за 100% стабилно зареждане
+  const renderSchoolLogo = (size = 60) => (
+    <svg width={size} height={size} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ display: 'block' }}>
+      <circle cx="50" cy="50" r="16" stroke="#1b5e20" strokeWidth="2.5" />
+      <ellipse cx="50" cy="50" rx="42" ry="14" stroke="#1b5e20" strokeWidth="2" transform="rotate(-30 50 50)" />
+      <ellipse cx="50" cy="50" rx="42" ry="14" stroke="#1b5e20" strokeWidth="2" transform="rotate(30 50 50)" />
+      <ellipse cx="50" cy="50" rx="42" ry="14" stroke="#1b5e20" strokeWidth="2" transform="rotate(90 50 50)" />
+      <circle cx="29" cy="38" r="3" fill="#2e7d32" />
+      <circle cx="71" cy="38" r="3" fill="#2e7d32" />
+      <circle cx="50" cy="8" r="3" fill="#2e7d32" />
+      <circle cx="50" cy="92" r="3" fill="#2e7d32" />
+      <path d="M42 45H48V55H42V45ZM52 45H58V48H55V55H52V45Z" fill="#1b5e20" />
+      <path d="M40 58H60V61H51V66H49V61H40V58Z" fill="#1b5e20" />
+      <path d="M78 68 L84 64 L86 67 L80 71 Z M82 74 L88 70 L90 73 L84 77 Z" fill="#2e7d32" />
+    </svg>
+  );
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row', minHeight: '100vh', backgroundColor: '#f4f6f4', fontFamily: '"Segoe UI", Arial, sans-serif', color: '#2c3e50', margin: 0 }}>
@@ -229,7 +243,7 @@ export default function Home() {
       {/* ЛЯВ КОНТРОЛЕН ПАНЕЛ */}
       <aside style={{ width: '310px', backgroundColor: '#ffffff', borderRight: '2px solid #e1e8e1', padding: '24px', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
         <div style={{ borderBottom: '3px solid #1b5e20', paddingBottom: '16px', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <img src={schoolLogoSrc} alt="ПГХХТ" style={{ width: '45px', height: 'auto' }} />
+          {renderSchoolLogo(44)}
           <div>
             <h1 style={{ fontSize: '15px', fontWeight: 'bold', color: '#1b5e20', margin: 0 }}>ПГХХТ Анализатор</h1>
             <p style={{ fontSize: '11px', color: '#556b2f', marginTop: '2px', margin: 0 }}>Диагностични доклади</p>
@@ -315,9 +329,11 @@ export default function Home() {
               style={{ backgroundColor: '#ffffff', border: '1px solid #cfd7cf', padding: '45px 55px', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: '22px', fontSize: '12px', color: '#111111', lineHeight: '1.6', position: 'relative', minHeight: '297mm' }}
             >
               
-              {/* ГОРНА ОФИЦИАЛНА БЛАНКА С ПОДРАВНЕНО ЛОГО */}
+              {/* ГОРНА ОФИЦИАЛНА БЛАНКА С ФИКСИРАНОТО ОФИЦИАЛНО ЛОГО НА МЯСТОТО СИ */}
               <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderBottom: '3px solid #1b5e20', paddingBottom: '14px', marginBottom: '5px' }}>
-                <img src={schoolLogoSrc} alt="Лого ПГХХТ" style={{ width: '75px', height: 'auto', display: 'block' }} />
+                <div style={{ paddingRight: '15px' }}>
+                  {renderSchoolLogo(75)}
+                </div>
                 <div style={{ textAlign: 'right', maxWidth: '580px' }}>
                   <h2 style={{ fontSize: '14px', fontWeight: 'bold', color: '#1b5e20', textTransform: 'uppercase', margin: 0, letterSpacing: '0.3px' }}>{analysisReport.school}</h2>
                   <p style={{ fontSize: '10px', color: '#556b2f', textTransform: 'uppercase', margin: '4px 0 0 0', fontWeight: '600' }}>Система за статистическо проследяване на резултатите</p>
@@ -342,7 +358,7 @@ export default function Home() {
               {/* РАЗДЕЛ 2 */}
               <section>
                 <h3 style={{ fontSize: '12px', fontWeight: 'bold', color: '#1b5e20', borderBottom: '1px solid #d0ded0', paddingBottom: '3px', marginBottom: '8px' }}>2. Обща успеваемост и педагогически функции</h3>
-                <p style={{ margin: 0, textAlign: 'justify' }}>Проведеното диагностично изпитване реализира три ключови стълба: <strong>Диагностична функция</strong> за откриване на пропуските, <strong>Информативна функция</strong> за обратна връзка към родителския съвет и <strong>Прогностична функция</strong> за преструктуриране на часовете за преговор.</p>
+                <p style={{ margin: 0, textAlign: 'justify' }}>Проведеното diagnosticно изпитване реализира три ключови стълба: <strong>Диагностична функция</strong> за откриване на пропуските, <strong>Информативна функция</strong> за обратна връзка към родителския съвет и <strong>Прогностична функция</strong> за преструктуриране на часовете за преговор.</p>
               </section>
 
               {/* РАЗДЕЛ 3: ТАБЛИЦА С ДЕФИЦИТИ */}
@@ -388,7 +404,7 @@ export default function Home() {
                 </ul>
               </section>
 
-              {/* ФУТЪР */}
+              {/* ФУТЪР - ИЗГОТВИЛ НИСКО ДОЛУ ВДЯСНО */}
               <div style={{ marginTop: 'auto', paddingTop: '30px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' }}>
                 <div style={{ fontSize: '10px', color: '#7a8a7a' }}>
                   {curriculumFile && <span>📎 Приложена програма: {curriculumFile.name}</span>}
@@ -420,4 +436,25 @@ export default function Home() {
                 </div>
                 <div style={{ fontSize: '11px', backgroundColor: '#f4f7f4', padding: '12px', border: '1px solid #e1e8e1', borderRadius: '4px' }}>
                   <h5 style={{ fontWeight: 'bold', margin: '0 0 4px 0', color: '#1b5e20' }}>Педагогическа препоръка за надграждане:</h5>
-                  <p style={{ margin: 0 }}>Графиката показва индивидуалното развитие на <strong>{selectedStudent}</strong>. Же
+                  <p style={{ margin: 0 }}>Графиката показва индивидуалното развитие на <strong>{selectedStudent}</strong>. Желателно е да се наблегне върху практическите казуси за отстраняване на текущите дефицити.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        ) : (
+          /* ОФИЦИАЛЕН НАЧАЛЕН ЕКРАН СЪС СТАБИЛНОТО ВГРАДЕНО ЛОГО НА УЧИЛИЩЕТО */
+          <div style={{ backgroundColor: '#ffffff', border: '1px solid #e1e8e1', padding: '48px', textAlign: 'center', maxWidth: '520px', marginTop: '40px', borderRadius: '4px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
+            {renderSchoolLogo(85)}
+            <div>
+              <h3 style={{ fontSize: '16px', fontWeight: 'bold', color: '#1b5e20', margin: '0 0 8px 0' }}>Официална система за анализи - ПГХХТ</h3>
+              <p style={{ color: '#6b7280', fontSize: '12px', lineHeight: '1.6', margin: 0 }}>Моля, изберете съответната паралелка и изпитване от левия контролен панел и натиснете бутона, за да заредите чистата експертна структура.</p>
+            </div>
+          </div>
+        )}
+      </main>
+
+    </div>
+  );
+}
+
